@@ -25,17 +25,26 @@ Requisitos no linux:
 ## Parte 1: Configuração na AWS
 •	Criar uma VPC (project1-vpc)
 <img src="/imgs/image.png">
+
 •	Criar e associar subnet pública (subnet-project1-public1);
-![alt text](image1.png)
+<img src="/imgs/image1.png">
+
 •	Criar um Internet Gateway (project1-igw01) e associar à VPC "project1-vpc";
-![alt text](image2.png)
+<img src="/imgs/image2.png">
+
 •	Criar uma Route Table e associar à VPC "project1-vpc";
+<img src="/imgs/image3.png">
 	- Editar Route Table para permitir acesso público, através do Internet Gateway "project1-igw01";
 	- Adicionar a subnet "subnet-project1-public1" à Route Table;
+
 •	Criar uma instância EC2 com Amazon Linux 2 (description="Project1_linux"), família t3.small, storage SSD de 16 GB, par de chaves (aws-servem.pem);
+<img src="/imgs/image4.png">
 	- Associar à VPC e Subnet criadas anteriormente;
 	- Criar um Security Group (project1-security-group), liberando as portas especificadas no enunciado da atividade (22/TCP, 111/TCP e UDP, 2049/TCP/UDP, 80/TCP, 443/TCP), via Inbound Security Group Rules;
+  <img src="/imgs/image5.png">
+
 •	Rodar instância EC2 "project1-EFS";
+
 •	Gerar um Elastic IP e anexar à instância EC2.
 
 ## Parte 2: Configuração no Linux
