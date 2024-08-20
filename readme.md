@@ -23,9 +23,12 @@ Requisitos no linux:
 # Passos
 
 ## Parte 1: Configuração na AWS
-•	Criar uma VPC (project1-vpc);
+•	Criar uma VPC (project1-vpc)
+![alt text](image.png)
 •	Criar e associar subnet pública (subnet-project1-public1);
+![alt text](image1.png)
 •	Criar um Internet Gateway (project1-igw01) e associar à VPC "project1-vpc";
+![alt text](image2.png)
 •	Criar uma Route Table e associar à VPC "project1-vpc";
 	- Editar Route Table para permitir acesso público, através do Internet Gateway "project1-igw01";
 	- Adicionar a subnet "subnet-project1-public1" à Route Table;
@@ -91,3 +94,6 @@ Requisitos no linux:
 	- $ sudo crontab -e
 	- Adicionar ao crontab: */5 * * * * /usr/local/bin/project1_compass.sh
 
+
+
+[def]: image.png
