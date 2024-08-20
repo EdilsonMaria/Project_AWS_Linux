@@ -2,19 +2,30 @@
 
 Requisitos AWS:
 •	Gerar uma chave pública para acesso ao ambiente;
+
 •	Criar 1 instância EC2 com o sistema operacional Amazon Linux 2 (Família t3.small, 16 GB SSD);
+
 •	Gerar 1 elastic IP e anexar à instância EC2;
+
 •	Liberar as portas de comunicação para acesso público: (22/TCP, 111/TCP e UDP, 2049/TCP/UDP, 80/TCP, 443/TCP).
 
 Requisitos no linux:
 •	Configurar o NFS entregue;
+
 •	Criar um diretório dentro do filesystem do NFS com seu nome;
+
 •	Subir um apache no servidor - o apache deve estar online e rodando;
+
 •	Criar um script que valide se o serviço esta online e envie o resultado da validação para o seu diretorio no nfs;
+
 •	O script deve conter - Data HORA + nome do serviço + Status + mensagem personalizada de ONLINE ou offline;
+
 •	O script deve gerar 2 arquivos de saida: 1 para o serviço online e 1 para o serviço OFFLINE;
+
 •	Preparar a execução automatizada do script a cada 5 minutos.
+
 •	Fazer o versionamento da atividade;
+
 •	Fazer a documentação explicando o processo de instalação do Linux.
 
 *Importante: Desligue a máquina quando não for utilizar, será descontado pontos de máquinas que permanecerem ligadas em períodos fora de uso.*
@@ -46,25 +57,35 @@ Requisitos no linux:
 •	Rodar instância EC2 "project1-EFS";
 
 •	Gerar um Elastic IP e anexar à instância EC2.
+<img src="/imgs/image6.png">
 
 ## Parte 2: Configuração no Linux
 •	Acessar a Instância EC2 (via SSH: $ ssh -i ~/.ssh/aws-servem-KeyPair ec2-user@<Elastic_IP>);
+
 •	Criar um Sistema de Arquivos EFS:
 	- Acessar o serviço EFS (Elastic File System);
 	- Clicar em Create file system;
 	- Atribuir o nome "project1-EFS" ao File System;
 	- Escolher a VPC onde está a instância EC2 "Project1_linux".
+
 •   Certifique-se de que o pacote de utilitários NFS está instalado na instância do EC2
     - $ sudo yum install -y nfs-utils
+
 •	Montar o filesystem NFS:
 	- $ sudo mkdir /mnt/efs
 	- $ sudo mount -t nfs4 -o nfsvers=4.1,rsize=1048576,wsize=1048576,hard,timeo=600,retrans=2,noresvport <IP_EFS>:/ /mnt/efs
 	- Configurar o Montagem Automática: $ echo "<IP_EFS>:/ /mnt/efs nfs4 defaults,_netdev 0 0" | sudo tee -a /etc/fstab
+
 •	Criar um diretório dentro do filesystem do NFS com meu nome: $ sudo mkdir /mnt/efs/<My_Name>
+
 •	Instalar o Apache: sudo yum install -y httpd
+
 •	Iniciar e habilitar o Apache: sudo systemctl start httpd && sudo systemctl enable httpd
-•	Criar o script de verificação do estado do servidor Apache: 
+
+•	Criar o script de verificação do estado do servidor Apache:
+
 	- $ sudo nano /usr/local/bin/project1_compass.sh
+
 	- check_apache_status.sh:
 		#!/bin/bash
 
@@ -99,6 +120,7 @@ Requisitos no linux:
 	- $ sudo chmod +x /usr/local/bin/project1_compass.sh
 	- $ sudo chown ec2-user:ec2-user /mnt/efs/<My_Name>
 	- $ sudo timedatectl set-timezone America/Recife
+  
 •	Automatizar a execução do script a cada 5 minutos:
 	- $ sudo crontab -e
 	- Adicionar ao crontab: */5 * * * * /usr/local/bin/project1_compass.sh
