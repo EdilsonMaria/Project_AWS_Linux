@@ -24,7 +24,7 @@ Requisitos no linux:
 
 ## Parte 1: Configuração na AWS
 •	Criar uma VPC (project1-vpc)
-![alt text](image.png)
+<img src="/imgs/image.png">
 •	Criar e associar subnet pública (subnet-project1-public1);
 ![alt text](image1.png)
 •	Criar um Internet Gateway (project1-igw01) e associar à VPC "project1-vpc";
