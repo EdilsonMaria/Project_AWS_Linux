@@ -85,7 +85,7 @@ Requisitos no linux:
 •	*Criar um diretório dentro do filesystem do NFS com meu nome:* 
  - $ sudo mkdir /mnt/efs/<My_Name>
 
-### Parte 3: Instalar e Configurar o Apache
+## Parte 3: Instalar e Configurar o Apache
 •	*Instalar o Apache:* 
  - $ sudo yum install -y httpd
 
