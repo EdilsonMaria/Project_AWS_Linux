@@ -53,6 +53,7 @@ Requisitos no linux:
 	- Associar à VPC e Subnet criadas anteriormente;
 	- Criar um Security Group (project1-security-group), liberando as portas especificadas no enunciado da atividade (22/TCP, 111/TCP e UDP, 2049/TCP/UDP, 80/TCP, 443/TCP), via Inbound Security Group Rules;
   <img src="/imgs/image5.png">
+  - Criar um par de chaves do tipo .pem "Project1_compass.pem" para acesso via SSH da instancia EC2
 
 •	Rodar instância EC2 "project1-EFS";
 
@@ -60,20 +61,36 @@ Requisitos no linux:
 <img src="/imgs/image6.png">
 
 ## Parte 2: Configuração no Linux
-•	Acessar a Instância EC2 (via SSH: $ ssh -i ~/.ssh/aws-servem-KeyPair ec2-user@<Elastic_IP>);
+•	Acessar a Instância EC2 (via SSH: $ ssh -i "Project1_compass.pem" ec2-user@<Elastic_IP>);
+<img src="/imgs/image7.png">
 
-•	Criar um Sistema de Arquivos EFS:
+•	Criar um Sistema de compartilhamento de Arquivos NFS:
+  - Instalar o pacotes nescessarios do NFS server: $ sudo yum install nfs-utils
+  - Ativando o servidor NFS: $ sudo systemctl enable nfs-server
+  - Iniciando o serviço de NFS: $ sudo systemctl start nfs-server
+  - Verificando o Status do NFS: $ sudo systemctl status nfs-server
+  - Criando um diretorio <my_name> dentro o /mnt/nfs: $ sudo mkdir -p /mnt/nfs/edilson_maria
+<img src="/imgs/image8.png">
+
+•	Configure o Sistema de compartilhamento de Arquivos NFS:
+  - Defina as permissões dos ranges de IP que teram acessos ao diretorio NFS:
+  $ sudo vi /etc/exports
+  - Adicione o a linha abaixo afirmanado os ranges de IP no diretorio /etc/exports:
+  $ /mnt/nfs_share 192.168.1.0/24(rw,sync,no_root_squash,no_subtree_check)
+
+
+•	Criar um Sistema de compartilhamento de Arquivos EFS na AWS:
 	- Acessar o serviço EFS (Elastic File System);
 	- Clicar em Create file system;
-	- Atribuir o nome "project1-EFS" ao File System;
+	- Atribuir o nome "project1_compass-EFS" ao File System;
 	- Escolher a VPC onde está a instância EC2 "Project1_linux".
 
-•   Certifique-se de que o pacote de utilitários NFS está instalado na instância do EC2
-    - $ sudo yum install -y nfs-utils
+• Instalando o facilitado da Amazon-efs-utils para auxiliar na montagem dos EFS:
+    - $ sudo yum install -y amazon-efs-utils
 
 •	Montar o filesystem NFS:
 	- $ sudo mkdir /mnt/efs
-	- $ sudo mount -t nfs4 -o nfsvers=4.1,rsize=1048576,wsize=1048576,hard,timeo=600,retrans=2,noresvport <IP_EFS>:/ /mnt/efs
+	- $ sudo mount -t nfs4 -o nfsvers=4.1,rsize=1048576,wsize=1048576,hard,timeo=600,retrans=2,noresvport <IP_EFS>:/ mnt/efs 
 	- Configurar o Montagem Automática: $ echo "<IP_EFS>:/ /mnt/efs nfs4 defaults,_netdev 0 0" | sudo tee -a /etc/fstab
 
 •	Criar um diretório dentro do filesystem do NFS com meu nome: $ sudo mkdir /mnt/efs/<My_Name>
@@ -81,6 +98,7 @@ Requisitos no linux:
 •	Instalar o Apache: sudo yum install -y httpd
 
 •	Iniciar e habilitar o Apache: sudo systemctl start httpd && sudo systemctl enable httpd
+<img src="/imgs/image9.png">
 
 •	Criar o script de verificação do estado do servidor Apache:
 
