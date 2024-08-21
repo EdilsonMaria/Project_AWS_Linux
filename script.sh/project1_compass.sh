@@ -3,20 +3,20 @@
 # Configurações
 SERVICE_NAME="Apache"
 SERVICE_URL="http://localhost:80"
-EFS_DIR="/mnt/efs/status"
-ONLINE_STATUS_FILE="$EFS_DIR/online_status.txt"
-OFFLINE_STATUS_FILE="$EFS_DIR/offline_status.txt"
+NFS_DIR="/mnt/nfs/status"
+ONLINE_STATUS_FILE="$NFS_DIR/online_status.txt"
+OFFLINE_STATUS_FILE="$NFS_DIR/offline_status.txt"
 
 # Cria o diretório no EFS se não existir
-if [ ! -d "$EFS_DIR" ]; then
-    sudo mkdir -p "$EFS_DIR"
+if [ ! -d "$NFS_DIR" ]; then
+    sudo mkdir -p "$NFS_DIR"
 fi
 
 # Verifica se o serviço Apache está online
 HTTP_STATUS=$(curl -o /dev/null -s -w "%{http_code}\n" $SERVICE_URL)
 
 # Pega a data e hora atual
-CURRENT_DATETIME=$(date "+%Y-%m-%d %H:%M:%S")
+CURRENT_DATETIME=$(date "+%d-%m-%Y %H:%M:%S")
 
 if [ "$HTTP_STATUS" -eq 200 ]; then
     STATUS="ONLINE"
