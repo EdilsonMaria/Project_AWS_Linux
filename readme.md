@@ -142,6 +142,25 @@ Requisitos no linux:
  - Adicionar ao crontab: */5 * * * * /usr/local/bin/status_apache.sh
 <img src="/imgs/image11.png">
 
+## Parte 4: Colocar uma pagina WEB no servidor Apache
+
+•	*Acessando o diretorio apache para colocar os arquivos HTML e CSS:*
+ - $ cd /var/www/html
+
+•	*Crie o rquivo HTML no diretorio /var/www/html:*
+ - $ sudo nano index.html
+<img src="/imgs/image12.png">
+
+•	*Crie o rquivo CSS no diretorio /var/www/html:*
+ - $ sudo nano styles.html
+<img src="/imgs/image13.png">
+
+•	*Acessando o sit WEB no servidor apache:*
+ - No navegador coloque o IP Publico da instacia EC2 da AWS
+<img src="/imgs/image14png">
+
+
+
 
 
 [def]: image.png
