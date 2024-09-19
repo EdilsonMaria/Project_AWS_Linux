@@ -157,7 +157,7 @@ Requisitos no linux:
 
 •	*Acessando o sit WEB no servidor apache:*
  - No navegador coloque o IP Publico da instacia EC2 da AWS
-<img src="/imgs/image14png">
+<img src="/imgs/image14.png">
 
 
 
